@@ -10,10 +10,14 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :ios => "10.0" }
+  s.platforms    = { :ios => "11.0" }
   s.source       = { :git => "https://github.com/millo-L/react-native-kakao-share-link.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m,mm,swift}"
+  s.source_files = "ios/**/*.{h,c,cc,cpp,m,mm,swift}"
+  s.requires_arc = true
 
   s.dependency "React-Core"
+  s.dependency "KakaoSDKCommon", '~> 2.5.0'
+  s.dependency "KakaoSDKLink", '~> 2.5.0'
+  s.dependency "KakaoSDKTemplate", '~> 2.5.0'
 end

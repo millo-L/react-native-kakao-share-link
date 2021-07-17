@@ -1,6 +1,6 @@
 {
   "name": "react-native-kakao-share-link",
-  "version": "0.1.0",
+  "version": "0.9.0-beta",
   "description": "kakao share link",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
