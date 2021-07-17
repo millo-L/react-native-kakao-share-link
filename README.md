@@ -133,7 +133,9 @@ platform :ios, '11.0' # 혹은 그 이상
 
 ---
 
-1. 카카오 SDK 경로를 `android/build.gradle`에 추가합니다.
+1. Android 설정 관련 사항은 [공식문서 - 메시지 - 카카오링크:Android](https://developers.kakao.com/docs/latest/ko/message/android-link#before-you-begin)에서 확인하실 수 있습니다.
+
+2. 카카오 SDK 경로를 `android/build.gradle`에 추가합니다.
 
 ```gradle
 // android/build.gradle
@@ -150,7 +152,7 @@ allprojects {
 
 ```
 
-2. AndroidManifest.xml을 수정합니다.
+3. AndroidManifest.xml을 수정합니다.
 
 ```diff
   <manifest>
@@ -169,7 +171,7 @@ allprojects {
   </manifest>
 ```
 
-3. `app/src/main/res/values/string.xml` 을 열어 다음을 추가합니다.
+4. `app/src/main/res/values/string.xml` 을 열어 다음을 추가합니다.
 
 ```diff
   <resources>
