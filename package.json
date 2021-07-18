@@ -1,6 +1,6 @@
 {
   "name": "react-native-kakao-share-link",
-  "version": "0.9.0-beta",
+  "version": "0.9.6-beta",
   "description": "kakao share link",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -34,7 +34,10 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "kakao-link",
+    "kakao-share",
+    "kakaosdk-v2"
   ],
   "repository": "https://github.com/millo-L/react-native-kakao-share-link",
   "author": "millo-L <seungmin3837@naver.com> (https://github.com/millo-L)",

@@ -9,7 +9,7 @@ import com.kakao.sdk.template.model.*
 class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
     override fun getName(): String {
-        return "RNKakaoShareLink"
+        return "KakaoShareLink"
     }
 
     init {

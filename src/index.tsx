@@ -16,8 +16,8 @@ export declare type ExecutionParamType = {
 };
 
 export declare type LinkType = {
-  webUrl: string;
-  mobileWebUrl: string;
+  webUrl?: string;
+  mobileWebUrl?: string;
   iosExecutionParams?: ExecutionParamType[];
   androidExecutionParams?: ExecutionParamType[];
 };

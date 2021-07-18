@@ -5,6 +5,7 @@ React Native 카카오 링크 라이브러리 입니다. 아직 안정적인 버
 ## [주의 사항]
 
 - 안드로이드 minSdkVersion 19 이상
+- 안드로이드 gradle 3.6.1 이상
 - iOS 11.0 이상
 
 # Getting started
@@ -135,17 +136,28 @@ platform :ios, '11.0' # 혹은 그 이상
 
 1. Android 설정 관련 사항은 [공식문서 - 메시지 - 카카오링크:Android](https://developers.kakao.com/docs/latest/ko/message/android-link#before-you-begin)에서 확인하실 수 있습니다.
 
-2. 카카오 SDK 경로를 `android/build.gradle`에 추가합니다.
+2. 카카오 SDK 경로를 `android/build.gradle`에 추가하고 minSdkVersion을 19이상, build gradle을 3.6.1이상으로 설정합니다.
+
+build gradle은 각각의 버전 별로 `android/gradle/wrapper/gradle-wrapper.properties`의 `distributionUrl`의 버전도 변경해야합니다.
 
 ```gradle
 // android/build.gradle
 
 ...
+buildscript {
+  ext {
+    ...
+    minSdkVersion = 19 // 혹은 그 이상
+  }
+  ...
+  dependencies {
+    classpath('com.android.tools.build:gradle:3.6.1') // 혹은 그 이상
+  }
+}
 
 allprojects {
     repositories {
         ...
-
         maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
     }
 }
@@ -156,18 +168,12 @@ allprojects {
 
 ```diff
   <manifest>
-
     ...
-
 +   <uses-permission android:name="android.permission.INTERNET" />
-
     ...
-
     <application
 +     android:allowBackup="true"
-
     ...
-
   </manifest>
 ```
 
@@ -175,13 +181,9 @@ allprojects {
 
 ```diff
   <resources>
-
     ...
-
 +   <string name="kakao_app_key">{카카오 네이티브 앱키}</string>
-
     ...
-
   </resources>
 
 ```
@@ -259,7 +261,12 @@ allprojects {
 | buttonTitle | 기본 버튼 타이틀("자세히 보기")을 변경하고 싶을 때 설정                                      | string                                                                                                        | X    |
 | buttons     | 버튼 목록. 버튼 타이틀과 링크를 변경하고 싶을때, 버튼 두개를 사용하고 싶을때 사용.(최대 2개) | [`ButtonType[]`](https://github.com/millo-L/react-native-kakao-share-link/blob/master/README.md#ButtonType)   | X    |
 
+![commerce](https://user-images.githubusercontent.com/44129533/126057319-d839dc1c-1f28-4a3b-9112-d9c7a59df52a.jpeg)
+
 ```ts
+import KakaoShareLink from 'react-native-kakao-share-link';
+
+// ...
 try {
   const response = await KakaoShareLink.sendCommerce({
     content: {
@@ -274,22 +281,26 @@ try {
     },
     commerce: {
       regularPrice: 100000,
-      discountPrice: 20000,
+      discountPrice: 80000,
       discountRate: 20,
     },
     buttons: [
       {
         title: '앱에서 보기',
-        androidExecutionParams: [{ key: 'key1', value: 'value1' }],
-        iosExecutionParams: [
-          { key: 'key1', value: 'value1' },
-          { key: 'key2', value: 'value2' },
-        ],
+        link: {
+          androidExecutionParams: [{ key: 'key1', value: 'value1' }],
+          iosExecutionParams: [
+            { key: 'key1', value: 'value1' },
+            { key: 'key2', value: 'value2' },
+          ],
+        },
       },
       {
         title: '웹에서 보기',
-        webUrl: 'https://developers.kakao.com/',
-        mobileWebUrl: 'https://developers.kakao.com/',
+        link: {
+          webUrl: 'https://developers.kakao.com/',
+          mobileWebUrl: 'https://developers.kakao.com/',
+        },
       },
     ],
   });
@@ -310,7 +321,12 @@ try {
 | buttonTitle | 기본 버튼 타이틀("자세히 보기")을 변경하고 싶을 때 설정                                      | string                                                                                                        | X    |
 | buttons     | 버튼 목록. 버튼 타이틀과 링크를 변경하고 싶을때, 버튼 두개를 사용하고 싶을때 사용.(최대 2개) | [`ButtonType`](https://github.com/millo-L/react-native-kakao-share-link/blob/master/README.md#ButtonType)     | X    |
 
+![list](https://user-images.githubusercontent.com/44129533/126057352-aedc2cfa-045f-491e-a55f-85c2f6fcb81a.jpeg)
+
 ```ts
+import KakaoShareLink from 'react-native-kakao-share-link';
+
+// ...
 try {
   const response = await KakaoShareLink.sendList({
     headerTitle: 'headerTitle',
@@ -369,7 +385,12 @@ try {
 | buttonTitle  | 기본 버튼 타이틀<br />("자세히 보기")을 변경하고 싶을 때 설정                                                     | string                                                                                                      | X    |
 | buttons      | 버튼 목록. 기본 버튼의 타이틀 외에 링크도 변경하고 싶을 때 설정. <br />(최대 1개, 오른쪽 "위치 보기" 버튼은 고정) | [`ButtonType`](https://github.com/millo-L/react-native-kakao-share-link/blob/master/README.md#ButtonType)   | X    |
 
+![location](https://user-images.githubusercontent.com/44129533/126057365-629d7c3c-a5ae-450b-900f-741d9c460798.jpeg)
+
 ```ts
+import KakaoShareLink from 'react-native-kakao-share-link';
+
+// ...
 try {
   const response = await KakaoShareLink.sendLocation({
     address: '경기 성남시 분당구 판교역로',
@@ -401,7 +422,12 @@ try {
 | buttonTitle | 기본 버튼 타이틀("자세히 보기")을 변경하고 싶을 때 설정                           | string                                                                                                      | X    |
 | buttons     | 버튼 목록. 버튼 타이틀과 링크를 변경하고 싶을때, 버튼 두개를 사용하고 싶을때 사용 | [`ButtonType[]`](https://github.com/millo-L/react-native-kakao-share-link/blob/master/README.md#ButtonType) | X    |
 
+![feed](https://user-images.githubusercontent.com/44129533/126057343-9f4d4ded-5f02-4971-84c3-00ac640fcb00.jpeg)
+
 ```ts
+import KakaoShareLink from 'react-native-kakao-share-link';
+
+// ...
 try {
   const response = await KakaoShareLink.sendFeed({
     content: {
@@ -421,11 +447,13 @@ try {
     buttons: [
       {
         title: '앱에서 보기',
-        androidExecutionParams: [{ key: 'key1', value: 'value1' }],
-        iosExecutionParams: [
-          { key: 'key1', value: 'value1' },
-          { key: 'key2', value: 'value2' },
-        ],
+        link: {
+          androidExecutionParams: [{ key: 'key1', value: 'value1' }],
+          iosExecutionParams: [
+            { key: 'key1', value: 'value1' },
+            { key: 'key2', value: 'value2' },
+          ],
+        },
       },
     ],
   });
@@ -445,17 +473,31 @@ try {
 | buttonTitle | 기본 버튼 타이틀<br/>("자세히 보기")을 변경하고 싶을 때 설정                                                       | string                                                                                                      | X    |
 | buttons     | 메시지 하단에 추가되는 버튼 목록. 버튼 타이틀과 링크를 변경하고 싶을때, 버튼 두개를 사용하고 싶을때 사용. 최대 2개 | [`ButtonType[]`](https://github.com/millo-L/react-native-kakao-share-link/blob/master/README.md#ButtonType) | X    |
 
+![text](https://user-images.githubusercontent.com/44129533/126057373-6469fa60-761f-41b9-9cf3-7eb6825b5788.jpeg)
+
 ```ts
 import KakaoShareLink from 'react-native-kakao-share-link';
 
 // ...
 try {
-  const response = await KakaoShareLink.sendFeed({
+  const response = await KakaoShareLink.sendText({
     text: 'text',
     link: {
       webUrl: 'https://developers.kakao.com/',
       mobileWebUrl: 'https://developers.kakao.com/',
     },
+    buttons: [
+      {
+        title: '앱에서 보기',
+        link: {
+          androidExecutionParams: [{ key: 'key1', value: 'value1' }],
+          iosExecutionParams: [
+            { key: 'key1', value: 'value1' },
+            { key: 'key2', value: 'value2' },
+          ],
+        },
+      },
+    ],
   });
   console.log(response);
 } catch (e) {
