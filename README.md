@@ -1,6 +1,6 @@
 # react-native-kakao-share-link
 
-React Native 카카오 링크 라이브러리 입니다. 아직 안정적인 버전은 아니니 유의해주시고 문제가 있으면 issue에 남겨주시기 바랍니다.
+React Native 카카오 링크 라이브러리 입니다. 문제가 있으면 issue에 남겨주시기 바랍니다.
 
 ## [주의 사항]
 
@@ -16,6 +16,8 @@ React Native 카카오 링크 라이브러리 입니다. 아직 안정적인 버
 
 ```sh
 npm install react-native-kakao-share-link
+# pod install 명령어는 iOS Deployment Target을 모두 11.0 이상으로 올린 후 진행해야 합니다.
+# 자세한 내용은 아래의 iOS 설정 부분에 있습니다.
 cd ios
 pod install
 ```
@@ -64,7 +66,7 @@ react-native link react-native-kakao-share-link
 ...
 
 include ':react-native-kakao-share-link'
-project(':react-native-kakao-share-link').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-kakao-share-link/android')
+project(':react-native-kakao-share-link').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-kakao-share-link/android')
 ```
 
 3. nsert the following lines inside the dependencies block in `android/app/build.gradle`
@@ -128,7 +130,19 @@ platform :ios, '11.0' # 혹은 그 이상
 + </array>
 ```
 
-5. Xcode -> Build Settings -> Search Paths -> Library Search Paths 에서 `"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)"` 를 제거합니다.
+5. Xcode -> Build Settings -> Search Paths -> Library Search Paths 에서 `"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)"` 를 제거합니다. (제거하지 않을 시에는 `ld: symbol(s) not found for architecture x86_64` 오류가 발생합니다.)
+
+6. 모듈이 swift로 개발됐기 때문에 objective-c와 swift 사이에 브릿지 역할을 할 swift 파일을 생성합니다. (이미 생성해 놓으셨다면 넘어가셔도 됩니다.) 아래의 사진을 따라가시면 쉽게 추가하실 수 있습니다.
+
+   ![swift1](https://user-images.githubusercontent.com/44129533/126166778-286dd18f-b48a-4f8e-9989-c424dfd32fd6.png)
+
+   ![swift2](https://user-images.githubusercontent.com/44129533/126166855-f7860411-57d9-44ad-820e-8ff039c2a0bc.png)
+
+   ![swift3](https://user-images.githubusercontent.com/44129533/126167013-ca1eb223-6981-4065-b594-4349752ec6bf.png)
+
+   ![swift4](https://millo-l.github.io/static/78d31d7838ceb679033bf9aa70349dc7/644c5/fbsdk_4.jpg)
+
+   여기서 꼭 `Create Bridging Header`를 눌러주셔야합니다!
 
 ### Android
 
