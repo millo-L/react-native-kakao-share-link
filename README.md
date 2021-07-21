@@ -8,6 +8,10 @@ React Native 카카오 링크 라이브러리 입니다. 문제가 있으면 iss
 - 안드로이드 gradle 3.6.1 이상
 - iOS 11.0 이상
 
+# Change logs
+
+[Change logs 링크](https://github.com/millo-L/react-native-kakao-share-link/blob/master/CHANGELOG.md)
+
 # Getting started
 
 해당 라이브러리는 [kakao sdk v2](https://developers.kakao.com/docs/latest/ko/getting-started/app)를 사용하므로 안드로이드 minSdkVersion 19이상, iOS 11.0 이상만 지원합니다.
@@ -148,6 +152,8 @@ platform :ios, '11.0' # 혹은 그 이상
 
 ---
 
+안드로이드 수정시에는 반드시 Android Studio를 사용해주세요!
+
 1. Android 설정 관련 사항은 [공식문서 - 메시지 - 카카오링크:Android](https://developers.kakao.com/docs/latest/ko/message/android-link#before-you-begin)에서 확인하실 수 있습니다.
 
 2. 카카오 SDK 경로를 `android/build.gradle`에 추가하고 minSdkVersion을 19이상, build gradle을 3.6.1이상으로 설정합니다.
@@ -187,7 +193,18 @@ allprojects {
     ...
     <application
 +     android:allowBackup="true"
-    ...
+      ...>
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
++     <intent-filter>
++       <action android:name="android.intent.action.VIEW" />
++       <category android:name="android.intent.category.DEFAULT" />
++       <category android:name="android.intent.category.BROWSABLE" />
++       <data android:host="kakaolink" android:scheme="kakao{카카오 네이티브 앱키}" />
++     </intent-filter>
+    </application>
   </manifest>
 ```
 
@@ -200,6 +217,24 @@ allprojects {
     ...
   </resources>
 
+```
+
+5. 위의 설정까지 마무리하면 디버그 모드에서 기기 테스트 진행 시에는 잘 진행되지만 릴리즈 모드에서는 오류가 납니다. 바로 릴리즈 모드에서 사용되는 축소와 난독화 구성 때문인데, 이를 방지하기 위해 `android/app/proguard-rules.pro` 파일 맨 끝에 아래 두 줄을 추가해줍니다.
+
+```
+...
+-keep class com.kakao.sdk.**.model.* { <fields>; }
+-keep class * extends com.google.gson.TypeAdapter
+```
+
+이렇게 하면 com.google.gson.TypeAdapter에 대한 오류가 나올텐데 `android/app/build.gradle`를 수정하고 Sync Now를 눌러줍니다.
+
+```gradle
+...
+dependencies {
+  ...
+  implementation 'com.google.code.gson:gson:2.8.5'
+}
 ```
 
 ## Usage
