@@ -92,7 +92,7 @@ class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : 
     val sharedCount: Int? = getI(dict, "sharedCount")
     val subscriberCount: Int? = getI(dict, "subscriberCount")
     val viewCount: Int? = getI(dict, "viewCount")
-    return Social(commentCount, likeCount, sharedCount, viewCount, subscriberCount)
+    return Social(likeCount, commentCount, sharedCount, viewCount, subscriberCount)
   }
 
   private fun sendWithTemplate(template: DefaultTemplate, promise: Promise) {

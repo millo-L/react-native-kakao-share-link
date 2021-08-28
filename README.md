@@ -148,6 +148,14 @@ platform :ios, '11.0' # 혹은 그 이상
 
    여기서 꼭 `Create Bridging Header`를 눌러주셔야합니다!
 
+7. cocoapods
+
+```sh
+cd ios
+pod install
+cd ..
+```
+
 ### Android
 
 ---
