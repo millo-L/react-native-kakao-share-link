@@ -12,6 +12,10 @@ React Native 카카오 링크 라이브러리 입니다. 문제가 있으면 iss
 
 [Change logs 링크](https://github.com/millo-L/react-native-kakao-share-link/blob/master/CHANGELOG.md)
 
+# Deep Link 사용법
+
+카카오 링크를 사용한 딥링크 방식을 제대로 사용하지 못하고 있는 분들을 위한 예시 코드를 작성했습니다. [여기](https://millo-l.github.io/ReactNative-kakao-deep-link/)에서 확인하시고 궁금한 점은 댓글로 남겨주세요.
+
 # Getting started
 
 해당 라이브러리는 [kakao sdk v2](https://developers.kakao.com/docs/latest/ko/getting-started/app)를 사용하므로 안드로이드 minSdkVersion 19이상, iOS 11.0 이상만 지원합니다.
