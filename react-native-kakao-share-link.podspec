@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.dependency "React-Core"
-  s.dependency "KakaoSDKCommon", '~> 2.5.0'
-  s.dependency "KakaoSDKLink", '~> 2.5.0'
-  s.dependency "KakaoSDKTemplate", '~> 2.5.0'
+  s.dependency "KakaoSDKCommon", '~> 2.4.0'
+  s.dependency "KakaoSDKLink", '~> 2.4.0'
+  s.dependency "KakaoSDKTemplate", '~> 2.4.0'
 end

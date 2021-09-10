@@ -10,3 +10,7 @@
 [1.0.3]
 
     - 딥링크 관련 설명 추가
+
+[1.0.4]
+
+    - @react-native-seoul/kakao-login 과 동시 사용 시 cocoapods kakao sdk 버전으로 인한 오류 해결
