@@ -1,6 +1,6 @@
 import React from 'react';
 import KakaoShareLink from 'react-native-kakao-share-link';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 const App = () => {
   const sendCommerce = async () => {
@@ -32,7 +32,7 @@ const App = () => {
         ],
       });
       console.log(response);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       console.error(e.message);
     }
@@ -80,7 +80,7 @@ const App = () => {
         ],
       });
       console.log(response);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       console.error(e.message);
     }
@@ -107,17 +107,17 @@ const App = () => {
           {
             title: '앱에서 보기',
             link: {
-              androidExecutionParams: [{key: 'key1', value: 'value1'}],
+              androidExecutionParams: [{ key: 'key1', value: 'value1' }],
               iosExecutionParams: [
-                {key: 'key1', value: 'value1'},
-                {key: 'key2', value: 'value2'},
+                { key: 'key1', value: 'value1' },
+                { key: 'key2', value: 'value2' },
               ],
             },
           },
         ],
       });
       console.log(response);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       console.error(e.message);
     }
@@ -140,7 +140,7 @@ const App = () => {
         },
       });
       console.log(response);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       console.error(e.message);
     }
@@ -158,17 +158,17 @@ const App = () => {
           {
             title: '앱에서 보기',
             link: {
-              androidExecutionParams: [{key: 'key1', value: 'value1'}],
+              androidExecutionParams: [{ key: 'key1', value: 'value1' }],
               iosExecutionParams: [
-                {key: 'key1', value: 'value1'},
-                {key: 'key2', value: 'value2'},
+                { key: 'key1', value: 'value1' },
+                { key: 'key2', value: 'value2' },
               ],
             },
           },
         ],
       });
       console.log(response);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       console.error(e.message);
     }

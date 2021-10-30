@@ -5,18 +5,18 @@ import KakaoSDKTemplate
 
 @objc(KakaoShareLink)
 class KakaoShareLink: NSObject {
-    
+
     @objc
     static func requiresMainQueueSetup() -> Bool {
         return true
     }
-    
+
     public override init() {
         let appKey: String? = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String
         KakaoSDKCommon.initSDK(appKey: appKey!)
     }
-    
-    private func createExecutionParams(dict: NSDictionary, key: String) -> Dictionary<String, String>? {        
+
+    private func createExecutionParams(dict: NSDictionary, key: String) -> Dictionary<String, String>? {
         if let dictArr = dict[key] {
             var returnDict: [String: String] = [:]
             for item in (dictArr as! NSArray) {
@@ -35,7 +35,7 @@ class KakaoShareLink: NSObject {
         }
         return nil
     }
-    
+
     private func createLink(dict: NSDictionary, key: String) -> Link {
         if let linkDict = dict[key] {
             let lDict = (linkDict as! NSDictionary)
@@ -47,13 +47,13 @@ class KakaoShareLink: NSObject {
         }
         return Link(webUrl: nil, mobileWebUrl: nil, androidExecutionParams: nil, iosExecutionParams: nil)
     }
-    
+
     private func createButton(dict: NSDictionary) -> Button {
         let title = dict["title"] != nil ? dict["title"] : ""
         let link = createLink(dict: dict, key: "link")
         return Button(title: (title as! String), link: link)
     }
-    
+
     private func createButtons(dict: NSDictionary) -> Array<Button>? {
         if let dictArr = dict["buttons"] {
             var buttons: [Button] = []
@@ -64,7 +64,7 @@ class KakaoShareLink: NSObject {
         }
         return nil
     }
-    
+
     private func createSocial(dict: NSDictionary) -> Social? {
         if let socialDict = dict["social"] {
             let sDict = socialDict as! NSDictionary
@@ -77,7 +77,7 @@ class KakaoShareLink: NSObject {
         }
         return nil
     }
-    
+
     private func createContent(dict: NSDictionary) -> Content {
         let title = dict["title"] != nil ? (dict["title"] as! String) : ""
         let imageUrl = dict["imageUrl"] != nil ? createURL(dict: dict, key: "imageUrl")! : URL(string: "http://monthly.chosun.com/up_fd/Mdaily/2017-09/bimg_thumb/2017042000056_0.jpg")!
@@ -87,7 +87,7 @@ class KakaoShareLink: NSObject {
         let imageHeight = (dict["imageHeight"] as? Int)
         return Content(title: title, imageUrl: imageUrl, imageWidth: imageWidth, imageHeight: imageHeight, description: description, link: link)
     }
-    
+
     private func createContents(dictArr: NSArray) -> Array<Content> {
         var contents: [Content] = []
         for item in dictArr {
@@ -95,12 +95,12 @@ class KakaoShareLink: NSObject {
         }
         return contents
     }
-    
+
     private func createCommerce(dict: NSDictionary) -> CommerceDetail {
-        let regularPrice = (dict["regularPrice"] as! Int) 
-        let discountPrice = (dict["discountPrice"] as? Int) 
-        let discountRate = (dict["discountRate"] as? Int) 
-        let fixedDiscountPrice = (dict["fixedDiscountPrice"] as? Int) 
+        let regularPrice = (dict["regularPrice"] as! Int)
+        let discountPrice = (dict["discountPrice"] as? Int)
+        let discountRate = (dict["discountRate"] as? Int)
+        let fixedDiscountPrice = (dict["fixedDiscountPrice"] as? Int)
         return CommerceDetail(regularPrice: regularPrice, discountPrice: discountPrice, discountRate: discountRate, fixedDiscountPrice: fixedDiscountPrice)
     }
 
@@ -124,7 +124,15 @@ class KakaoShareLink: NSObject {
                         }
                     }
                 } else {
-                    reject("E_KAKAOTALK_NOT_INSTALLED", "카카오톡이 설치되어있지 않습니다.", nil)
+                    if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            resolve(["result": true])
+                        } else {
+                            reject("E_KAKAO_BROWSER_ERROR", "", nil)
+                            return
+                        }
+                    }
                 }
             }
         }
@@ -150,7 +158,15 @@ class KakaoShareLink: NSObject {
                         }
                     }
                 } else {
-                    reject("E_KAKAOTALK_NOT_INSTALLED", "카카오톡이 설치되어있지 않습니다.", nil)
+                    if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            resolve(["result": true])
+                        } else {
+                            reject("E_KAKAO_BROWSER_ERROR", "", nil)
+                            return
+                        }
+                    }
                 }
             }
         }
@@ -175,7 +191,15 @@ class KakaoShareLink: NSObject {
                         }
                     }
                 } else {
-                    reject("E_KAKAOTALK_NOT_INSTALLED", "카카오톡이 설치되어있지 않습니다.", nil)
+                    if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            resolve(["result": true])
+                        } else {
+                            reject("E_KAKAO_BROWSER_ERROR", "", nil)
+                            return
+                        }
+                    }
                 }
             }
         }
@@ -200,7 +224,15 @@ class KakaoShareLink: NSObject {
                         }
                     }
                 } else {
-                    reject("E_KAKAOTALK_NOT_INSTALLED", "카카오톡이 설치되어있지 않습니다.", nil)
+                    if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            resolve(["result": true])
+                        } else {
+                            reject("E_KAKAO_BROWSER_ERROR", "", nil)
+                            return
+                        }
+                    }
                 }
             }
         }
@@ -225,7 +257,15 @@ class KakaoShareLink: NSObject {
                         }
                     }
                 } else {
-                    reject("E_KAKAOTALK_NOT_INSTALLED", "카카오톡이 설치되어있지 않습니다.", nil)
+                    if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            resolve(["result": true])
+                        } else {
+                            reject("E_KAKAO_BROWSER_ERROR", "", nil)
+                            return
+                        }
+                    }
                 }
             }
         }
