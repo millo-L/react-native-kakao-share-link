@@ -174,6 +174,18 @@ const App = () => {
     }
   };
 
+  const sendCustom = async () => {
+    try {
+      const response = await KakaoShareLink.sendCustom({
+        templateId: 64386,
+      });
+      console.log(response);
+    } catch (e: any) {
+      console.error(e);
+      console.error(e.message);
+    }
+  };
+
   return (
     <View style={styles.screen}>
       <TouchableOpacity style={styles.box} onPress={sendCommerce}>
@@ -190,6 +202,9 @@ const App = () => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.box} onPress={sendText}>
         <Text>텍스트 링크</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.box} onPress={sendCustom}>
+        <Text>커스텀 링크</Text>
       </TouchableOpacity>
     </View>
   );

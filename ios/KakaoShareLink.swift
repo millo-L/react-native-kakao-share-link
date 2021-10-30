@@ -270,4 +270,33 @@ class KakaoShareLink: NSObject {
             }
         }
     }
+    @objc(sendCustom:withResolver:withRejecter:)
+    func sendCustom(dict:NSDictionary,resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void {
+        let templateId = Int64(dict["templateId"] as! Int)
+        let templateArgs = createExecutionParams(dict: dict, key: "templateArgs")
+        if LinkApi.isKakaoLinkAvailable() == true {
+            LinkApi.shared.customLink(templateId: templateId, templateArgs: templateArgs) {(linkResult, error) in
+                if let error = error {
+                    reject("E_Kakao_Link", error.localizedDescription, nil)
+                }
+                else {
+                    //do something
+                    guard let linkResult = linkResult else { return }
+                    UIApplication.shared.open(linkResult.url, options: [:], completionHandler: nil)
+                    resolve(["result": true])
+                }
+            }
+        } else {
+            if let url = LinkApi.shared.makeSharerUrlforCustomLink(templateId: templateId, templateArgs:templateArgs) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    resolve(["result": true])
+                } else {
+                    reject("E_KAKAO_BROWSER_ERROR", "", nil)
+                    return
+                }
+            }
+
+        }
+    }
 }

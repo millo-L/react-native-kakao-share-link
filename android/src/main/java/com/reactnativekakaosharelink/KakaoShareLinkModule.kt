@@ -198,6 +198,52 @@ class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : 
     sendWithTemplate(text, promise)
   }
 
+  @ReactMethod
+  private fun sendCustom(dict: ReadableMap, promise: Promise) {
+    val templateId = if (dict.hasKey("templateId")) dict.getInt("templateId")!! else 0
+    val templateArgs = createExecutionParams(dict.getArray("templateArgs"))
+    val serverCallbackArgs = HashMap<String, String>()
+    serverCallbackArgs["user_id"] = "\${current_user_id}"
+    serverCallbackArgs["product_id"] = "\${shared_product_id}"
+
+    if (LinkClient.instance.isKakaoLinkAvailable(reactContext)) {
+      LinkClient.instance.customTemplate(reactContext, templateId = templateId.toLong(), templateArgs = templateArgs, serverCallbackArgs = serverCallbackArgs) {
+        linkResult, error ->
+        if (error != null) {
+          promise.reject("E_KAKAO_ERROR", error.message, error)
+          return@customTemplate
+        } else {
+          val map = Arguments.createMap()
+          map.putBoolean("result", true)
+          map.putString("intent", linkResult?.intent.toString())
+          linkResult?.intent?.let { intent -> reactContext.startActivity(intent, null) }
+          map.putString("warning", linkResult?.warningMsg.toString())
+          map.putString("argument", linkResult?.argumentMsg.toString())
+          map.putString("callback", serverCallbackArgs.toString())
+          promise.resolve(map)
+          return@customTemplate
+        }
+      }
+    } else {
+      // 카카오톡 미설치: 웹 공유 사용 권장
+      // 웹 공유 예시 코드
+      val sharerUrl = WebSharerClient.instance.customTemplateUri(templateId.toLong(), templateArgs = templateArgs)
+
+      // 1. CustomTabs으로 Chrome 브라우저 열기
+      try {
+        KakaoCustomTabsClient.openWithDefault(reactContext, sharerUrl)
+      } catch (e: UnsupportedOperationException) {
+        // 2. CustomTabs으로 디바이스 기본 브라우저 열기
+        try {
+          KakaoCustomTabsClient.open(reactContext, sharerUrl)
+        } catch (e: ActivityNotFoundException) {
+          // 인터넷 브라우저가 없을 때 예외처리
+          promise.reject("E_KAKAO_NO_BROWSER", e.message, e)
+        }
+      }
+    }
+  }
+
   init {
     val kakaoAppKey = reactContext.resources.getString(
       reactContext.resources.getIdentifier("kakao_app_key", "string", reactContext.packageName))
