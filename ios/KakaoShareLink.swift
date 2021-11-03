@@ -2,9 +2,12 @@ import Foundation
 import KakaoSDKCommon
 import KakaoSDKLink
 import KakaoSDKTemplate
+import SafariServices
 
 @objc(KakaoShareLink)
 class KakaoShareLink: NSObject {
+    var rootViewController : UIViewController?
+    var safariViewController : SFSafariViewController?
 
     @objc
     static func requiresMainQueueSetup() -> Bool {
@@ -125,12 +128,17 @@ class KakaoShareLink: NSObject {
                     }
                 } else {
                     if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
-                        if UIApplication.shared.canOpenURL(url) {
-                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            resolve(["result": true])
-                        } else {
-                            reject("E_KAKAO_BROWSER_ERROR", "", nil)
-                            return
+                        DispatchQueue.main.async {
+                            self.safariViewController = SFSafariViewController(url: url)
+                            self.safariViewController?.modalPresentationStyle = .pageSheet
+                            
+                            self.rootViewController = UIApplication.shared.delegate?.window??.rootViewController
+                            self.rootViewController?.dismiss(animated: false, completion: {
+                                let appDelegate = UIApplication.shared.delegate
+                                appDelegate?.window??.rootViewController?.present(self.safariViewController!, animated: true, completion: {
+                                    resolve(["result": true])
+                                })
+                            })
                         }
                     }
                 }
@@ -159,12 +167,17 @@ class KakaoShareLink: NSObject {
                     }
                 } else {
                     if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
-                        if UIApplication.shared.canOpenURL(url) {
-                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            resolve(["result": true])
-                        } else {
-                            reject("E_KAKAO_BROWSER_ERROR", "", nil)
-                            return
+                        DispatchQueue.main.async {
+                            self.safariViewController = SFSafariViewController(url: url)
+                            self.safariViewController?.modalPresentationStyle = .pageSheet
+                            
+                            self.rootViewController = UIApplication.shared.delegate?.window??.rootViewController
+                            self.rootViewController?.dismiss(animated: false, completion: {
+                                let appDelegate = UIApplication.shared.delegate
+                                appDelegate?.window??.rootViewController?.present(self.safariViewController!, animated: true, completion: {
+                                    resolve(["result": true])
+                                })
+                            })
                         }
                     }
                 }
@@ -192,12 +205,17 @@ class KakaoShareLink: NSObject {
                     }
                 } else {
                     if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
-                        if UIApplication.shared.canOpenURL(url) {
-                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            resolve(["result": true])
-                        } else {
-                            reject("E_KAKAO_BROWSER_ERROR", "", nil)
-                            return
+                        DispatchQueue.main.async {
+                            self.safariViewController = SFSafariViewController(url: url)
+                            self.safariViewController?.modalPresentationStyle = .pageSheet
+                            
+                            self.rootViewController = UIApplication.shared.delegate?.window??.rootViewController
+                            self.rootViewController?.dismiss(animated: false, completion: {
+                                let appDelegate = UIApplication.shared.delegate
+                                appDelegate?.window??.rootViewController?.present(self.safariViewController!, animated: true, completion: {
+                                    resolve(["result": true])
+                                })
+                            })
                         }
                     }
                 }
@@ -225,12 +243,17 @@ class KakaoShareLink: NSObject {
                     }
                 } else {
                     if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
-                        if UIApplication.shared.canOpenURL(url) {
-                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            resolve(["result": true])
-                        } else {
-                            reject("E_KAKAO_BROWSER_ERROR", "", nil)
-                            return
+                        DispatchQueue.main.async {
+                            self.safariViewController = SFSafariViewController(url: url)
+                            self.safariViewController?.modalPresentationStyle = .pageSheet
+                            
+                            self.rootViewController = UIApplication.shared.delegate?.window??.rootViewController
+                            self.rootViewController?.dismiss(animated: false, completion: {
+                                let appDelegate = UIApplication.shared.delegate
+                                appDelegate?.window??.rootViewController?.present(self.safariViewController!, animated: true, completion: {
+                                    resolve(["result": true])
+                                })
+                            })
                         }
                     }
                 }
@@ -258,12 +281,17 @@ class KakaoShareLink: NSObject {
                     }
                 } else {
                     if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
-                        if UIApplication.shared.canOpenURL(url) {
-                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            resolve(["result": true])
-                        } else {
-                            reject("E_KAKAO_BROWSER_ERROR", "", nil)
-                            return
+                        DispatchQueue.main.async {
+                            self.safariViewController = SFSafariViewController(url: url)
+                            self.safariViewController?.modalPresentationStyle = .pageSheet
+                            
+                            self.rootViewController = UIApplication.shared.delegate?.window??.rootViewController
+                            self.rootViewController?.dismiss(animated: false, completion: {
+                                let appDelegate = UIApplication.shared.delegate
+                                appDelegate?.window??.rootViewController?.present(self.safariViewController!, animated: true, completion: {
+                                    resolve(["result": true])
+                                })
+                            })
                         }
                     }
                 }
@@ -288,12 +316,17 @@ class KakaoShareLink: NSObject {
             }
         } else {
             if let url = LinkApi.shared.makeSharerUrlforCustomLink(templateId: templateId, templateArgs:templateArgs) {
-                if UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    resolve(["result": true])
-                } else {
-                    reject("E_KAKAO_BROWSER_ERROR", "", nil)
-                    return
+                DispatchQueue.main.async {
+                    self.safariViewController = SFSafariViewController(url: url)
+                    self.safariViewController?.modalPresentationStyle = .pageSheet
+                    
+                    self.rootViewController = UIApplication.shared.delegate?.window??.rootViewController
+                    self.rootViewController?.dismiss(animated: false, completion: {
+                        let appDelegate = UIApplication.shared.delegate
+                        appDelegate?.window??.rootViewController?.present(self.safariViewController!, animated: true, completion: {
+                            resolve(["result": true])
+                        })
+                    })
                 }
             }
 
