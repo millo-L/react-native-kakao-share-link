@@ -1,6 +1,6 @@
 import Foundation
 import KakaoSDKCommon
-import KakaoSDKLink
+import KakaoSDKShare
 import KakaoSDKTemplate
 
 @objc(KakaoShareLink)
@@ -13,7 +13,7 @@ class KakaoShareLink: NSObject {
 
     public override init() {
         let appKey: String? = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String
-        KakaoSDKCommon.initSDK(appKey: appKey!)
+        KakaoSDK.initSDK(appKey: appKey!)
     }
 
     private func createExecutionParams(dict: NSDictionary, key: String) -> Dictionary<String, String>? {
@@ -111,8 +111,8 @@ class KakaoShareLink: NSObject {
         let commerceTemplate = CommerceTemplate(content: createContent(dict: (dict["content"] as! NSDictionary)), commerce: createCommerce(dict: (dict["commerce"] as! NSDictionary)), buttonTitle: buttonTitle, buttons: buttons)
         if let commerceTemplateJsonData = (try? SdkJSONEncoder.custom.encode(commerceTemplate)) {
             if let templateJsonObject = SdkUtils.toJsonObject(commerceTemplateJsonData) {
-                if LinkApi.isKakaoLinkAvailable() == true {
-                    LinkApi.shared.defaultLink(templateObject:templateJsonObject) {(linkResult, error) in
+                if ShareApi.isKakaoTalkSharingAvailable() == true {
+                    ShareApi.shared.shareDefault(templateObject:templateJsonObject) {(linkResult, error) in
                         if let error = error {
                             reject("E_Kakao_Link", error.localizedDescription, nil)
                         }
@@ -124,7 +124,7 @@ class KakaoShareLink: NSObject {
                         }
                     }
                 } else {
-                    if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
+                    if let url = ShareApi.shared.makeDefaultUrl(templateObject: templateJsonObject) {
                         if UIApplication.shared.canOpenURL(url) {
                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
                             resolve(["result": true])
@@ -145,8 +145,8 @@ class KakaoShareLink: NSObject {
         let listTemplate = ListTemplate(headerTitle: headerTitle, headerLink: createLink(dict: dict, key: "headerLink"), contents: createContents(dictArr: (dict["contents"] as! NSArray)), buttonTitle: buttonTitle, buttons: buttons)
         if let listTemplateJsonData = (try? SdkJSONEncoder.custom.encode(listTemplate)) {
             if let templateJsonObject = SdkUtils.toJsonObject(listTemplateJsonData) {
-                if LinkApi.isKakaoLinkAvailable() == true {
-                    LinkApi.shared.defaultLink(templateObject:templateJsonObject) {(linkResult, error) in
+                if ShareApi.isKakaoTalkSharingAvailable() == true {
+                    ShareApi.shared.shareDefault(templateObject:templateJsonObject) {(linkResult, error) in
                         if let error = error {
                             reject("E_Kakao_Link", error.localizedDescription, nil)
                         }
@@ -158,7 +158,7 @@ class KakaoShareLink: NSObject {
                         }
                     }
                 } else {
-                    if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
+                    if let url = ShareApi.shared.makeDefaultUrl(templateObject: templateJsonObject) {
                         if UIApplication.shared.canOpenURL(url) {
                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
                             resolve(["result": true])
@@ -178,8 +178,8 @@ class KakaoShareLink: NSObject {
         let feedTemplate = FeedTemplate(content: createContent(dict: (dict["content"] as! NSDictionary)), social: createSocial(dict: dict), buttonTitle: buttonTitle, buttons: buttons)
         if let feedTemplateJsonData = (try? SdkJSONEncoder.custom.encode(feedTemplate)) {
             if let templateJsonObject = SdkUtils.toJsonObject(feedTemplateJsonData) {
-                if LinkApi.isKakaoLinkAvailable() == true {
-                    LinkApi.shared.defaultLink(templateObject:templateJsonObject) {(linkResult, error) in
+                if ShareApi.isKakaoTalkSharingAvailable() == true {
+                    ShareApi.shared.shareDefault(templateObject:templateJsonObject) {(linkResult, error) in
                         if let error = error {
                             reject("E_Kakao_Link", error.localizedDescription, nil)
                         }
@@ -191,7 +191,7 @@ class KakaoShareLink: NSObject {
                         }
                     }
                 } else {
-                    if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
+                    if let url = ShareApi.shared.makeDefaultUrl(templateObject: templateJsonObject) {
                         if UIApplication.shared.canOpenURL(url) {
                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
                             resolve(["result": true])
@@ -211,8 +211,8 @@ class KakaoShareLink: NSObject {
         let locationTemplate = LocationTemplate(address: (dict["address"] as! String), addressTitle: (dict["addressTitle"] as? String), content: createContent(dict: (dict["content"] as! NSDictionary)), social: createSocial(dict: dict), buttonTitle: buttonTitle, buttons: buttons)
         if let locationTemplateJsonData = (try? SdkJSONEncoder.custom.encode(locationTemplate)) {
             if let templateJsonObject = SdkUtils.toJsonObject(locationTemplateJsonData) {
-                if LinkApi.isKakaoLinkAvailable() == true {
-                    LinkApi.shared.defaultLink(templateObject:templateJsonObject) {(linkResult, error) in
+                if ShareApi.isKakaoTalkSharingAvailable() == true {
+                    ShareApi.shared.shareDefault(templateObject:templateJsonObject) {(linkResult, error) in
                         if let error = error {
                             reject("E_Kakao_Link", error.localizedDescription, nil)
                         }
@@ -224,7 +224,7 @@ class KakaoShareLink: NSObject {
                         }
                     }
                 } else {
-                    if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
+                    if let url = ShareApi.shared.makeDefaultUrl(templateObject: templateJsonObject) {
                         if UIApplication.shared.canOpenURL(url) {
                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
                             resolve(["result": true])
@@ -244,8 +244,8 @@ class KakaoShareLink: NSObject {
         let textTemplate = TextTemplate(text: (dict["text"] as! String), link: createLink(dict: dict, key: "link"), buttonTitle: buttonTitle, buttons: buttons)
         if let textTemplateJsonData = (try? SdkJSONEncoder.custom.encode(textTemplate)) {
             if let templateJsonObject = SdkUtils.toJsonObject(textTemplateJsonData) {
-                if LinkApi.isKakaoLinkAvailable() == true {
-                    LinkApi.shared.defaultLink(templateObject:templateJsonObject) {(linkResult, error) in
+                if ShareApi.isKakaoTalkSharingAvailable() == true {
+                    ShareApi.shared.shareDefault(templateObject:templateJsonObject) {(linkResult, error) in
                         if let error = error {
                             reject("E_Kakao_Link", error.localizedDescription, nil)
                         }
@@ -257,7 +257,7 @@ class KakaoShareLink: NSObject {
                         }
                     }
                 } else {
-                    if let url = LinkApi.shared.makeSharerUrlforDefaultLink(templateObject: templateJsonObject) {
+                    if let url = ShareApi.shared.makeDefaultUrl(templateObject: templateJsonObject) {
                         if UIApplication.shared.canOpenURL(url) {
                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
                             resolve(["result": true])
@@ -274,8 +274,8 @@ class KakaoShareLink: NSObject {
     func sendCustom(dict:NSDictionary,resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void {
         let templateId = Int64(dict["templateId"] as! Int)
         let templateArgs = createExecutionParams(dict: dict, key: "templateArgs")
-        if LinkApi.isKakaoLinkAvailable() == true {
-            LinkApi.shared.customLink(templateId: templateId, templateArgs: templateArgs) {(linkResult, error) in
+        if ShareApi.isKakaoTalkSharingAvailable() == true {
+            ShareApi.shared.shareCustom(templateId: templateId, templateArgs: templateArgs) {(linkResult, error) in
                 if let error = error {
                     reject("E_Kakao_Link", error.localizedDescription, nil)
                 }
@@ -287,7 +287,7 @@ class KakaoShareLink: NSObject {
                 }
             }
         } else {
-            if let url = LinkApi.shared.makeSharerUrlforCustomLink(templateId: templateId, templateArgs:templateArgs) {
+            if let url = ShareApi.shared.makeCustomUrl(templateId: templateId, templateArgs:templateArgs) {
                 if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                     resolve(["result": true])
