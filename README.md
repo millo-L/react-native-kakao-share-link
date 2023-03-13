@@ -64,8 +64,10 @@ react-native link react-native-kakao-share-link
 ---
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add import com.reactnativekakaosharelink.KakaoShareLinkPackage; to the imports at the top of the file
-  - Add new KakaoShareLinkPackage() to the list returned by the getPackages() method
+
+- Add import com.reactnativekakaosharelink.KakaoShareLinkPackage; to the imports at the top of the file
+- Add new KakaoShareLinkPackage() to the list returned by the getPackages() method
+
 2. Append the following lines to `android/settings.gradle`
 
 ```gradle
@@ -129,6 +131,8 @@ platform :ios, '11.0' # 혹은 그 이상
   <string>1</string>
 + <key>KAKAO_APP_KEY</key>
 + <string>{카카오 네이티브앱 키}</string>
++ <key>KAKAO_APP_SCHEME</key> // 선택 사항 멀티 플랫폼 앱 구현 시에만 추가하면 됩니다
++ <string>{카카오 앱 스킴}</string> // 선택 사항
 + <key>LSApplicationQueriesSchemes</key>
 + <array>
 +     <!-- 카카오톡으로 로그인 -->
@@ -152,7 +156,14 @@ platform :ios, '11.0' # 혹은 그 이상
 
    여기서 꼭 `Create Bridging Header`를 눌러주셔야합니다!
 
-7. cocoapods
+7. (선택사항) 여러 라이브러리([@react-native-seoul/kakao-login](https://www.npmjs.com/package/@react-native-seoul/kakao-login) 등)에서 동일한 버전의 SDK를 써야 하는 경우 Podfile에 아래와 같이 추가하여 SDK 버전을 강제로 지정할 수 있습니다.
+
+```pod
+# 없는 경우에는 package.json의 sdkVersions.ios.kakao를 따릅니다.
+$KakaoSDKVersion=YOUR_KAKAO_SDK_VERSION
+```
+
+8. cocoapods
 
 ```sh
 cd ios
@@ -226,6 +237,7 @@ allprojects {
   <resources>
     ...
 +   <string name="kakao_app_key">{카카오 네이티브 앱키}</string>
++   <string name="kakao_custom_scheme">{카카오 앱 스킴}</string> // 선택 사항 멀티 플랫폼 앱 구현 시에만 추가하면 됩니다
     ...
   </resources>
 
@@ -570,10 +582,10 @@ try {
 
 ### `CustomTemplateType`
 
-| 이름        | 설명                                                                                                               | 타입                                                                                                        | 필수 |
-| ----------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- | ---- |
-| templateId        | 생성해놓은 카카오 링크 [메시지 템플릿](https://developers.kakao.com/docs/latest/ko/message/message-template)                                                                                           | number                                                                                                      | O    |
-| templateArgs        | 메시지 템플릿에 유동적으로 넣을 args                                                                              | Array<{ key: string; value: string; }>       | X    |
+| 이름         | 설명                                                                                                         | 타입                                   | 필수 |
+| ------------ | ------------------------------------------------------------------------------------------------------------ | -------------------------------------- | ---- |
+| templateId   | 생성해놓은 카카오 링크 [메시지 템플릿](https://developers.kakao.com/docs/latest/ko/message/message-template) | number                                 | O    |
+| templateArgs | 메시지 템플릿에 유동적으로 넣을 args                                                                         | Array<{ key: string; value: string; }> | X    |
 
 ![KakaoTalk_Photo_2021-10-30-13-18-36](https://user-images.githubusercontent.com/44129533/139519911-705fe582-a002-4c2e-84f6-d866afb42d6f.jpeg)
 
