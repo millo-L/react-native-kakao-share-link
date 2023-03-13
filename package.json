@@ -1,6 +1,6 @@
 {
   "name": "react-native-kakao-share-link",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "리액트 네이티브로 사용하는 카카오톡으로 공유하기. Kakao SDK v2를 사용한 카카오 링크(공유).",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

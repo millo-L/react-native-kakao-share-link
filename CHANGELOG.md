@@ -1,8 +1,9 @@
-[1.0.9]
+[1.0.10]
 
     - ios kakao sdk 2.11.1 기본 지정 (임의 설정 가능)
     - android kakao sdk 2.11.2 기본 지정
     - ios, android custom scheme 설정 가능 (멀티 플랫폼 앱인 경우 사용)
+    - android 카카오톡 미설치 시 오류 해결
 
 [1.0.6]
 
