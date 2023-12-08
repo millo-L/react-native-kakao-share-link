@@ -79,7 +79,7 @@ include ':react-native-kakao-share-link'
 project(':react-native-kakao-share-link').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-kakao-share-link/android')
 ```
 
-3. nsert the following lines inside the dependencies block in `android/app/build.gradle`
+3. Insert the following lines inside the dependencies block in `android/app/build.gradle`
 
 ```gradle
 // android/app/build.gradle
