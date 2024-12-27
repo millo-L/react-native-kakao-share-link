@@ -1,4 +1,4 @@
-package com.userproduct
+package com.reactnativekakaosharelink
 
 import android.content.ActivityNotFoundException
 import com.facebook.react.bridge.*
