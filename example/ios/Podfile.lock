@@ -258,7 +258,7 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
-  - react-native-kakao-share-link (1.0.7):
+  - react-native-kakao-share-link (1.0.11):
     - KakaoSDKCommon (= 2.11.1)
     - KakaoSDKShare (= 2.11.1)
     - KakaoSDKTemplate (= 2.11.1)
@@ -483,7 +483,7 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
-  react-native-kakao-share-link: 60401cba06e5d30fe48a84bf53176280f2b34380
+  react-native-kakao-share-link: 67dfcfa0bf2a774aa7919030edc65b41c6dbf662
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
   React-RCTBlob: a97d378b527740cc667e03ebfa183a75231ab0f0
@@ -499,4 +499,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 288fde17db8620ca65f3b8c45396507777d69331
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.16.2

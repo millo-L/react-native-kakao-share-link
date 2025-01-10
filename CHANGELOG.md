@@ -1,3 +1,7 @@
+[1.0.11]
+
+    - ios, android serverCallbackArgs 추가
+
 [1.0.10]
 
     - ios kakao sdk 2.11.1 기본 지정 (임의 설정 가능)
