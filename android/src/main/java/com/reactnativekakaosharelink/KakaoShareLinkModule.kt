@@ -14,6 +14,22 @@ class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : 
     return "KakaoShareLink"
   }
 
+  private fun getMap(dict: ReadableMap, key: String): Map<String, String>? {
+    val serverCallbackArgsReadableMap = if (dict.hasKey("serverCallbackArgs")) dict.getMap("serverCallbackArgs") else null
+    return readableMapToMap(serverCallbackArgsReadableMap)
+  }
+
+  private fun readableMapToMap(readableMap: ReadableMap?): Map<String, String>? {
+      val map: MutableMap<String, String> = HashMap()
+      if (readableMap == null) return map
+      val iteratorKey = readableMap.keySetIterator()
+      while (iteratorKey.hasNextKey()) {
+          val key = iteratorKey.nextKey()
+          map[key] = readableMap.getString(key) ?: ""
+      }
+      return map
+  }
+
   private fun getS(dict: ReadableMap, key: String): String? {
     return if (dict.hasKey(key)) dict.getString(key) else null
   }
@@ -98,12 +114,9 @@ class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : 
     return Social(likeCount, commentCount, sharedCount, viewCount, subscriberCount)
   }
 
-  private fun sendWithTemplate(template: DefaultTemplate, promise: Promise) {
-    val serverCallbackArgs = HashMap<String, String>()
-    serverCallbackArgs["user_id"] = "\${current_user_id}"
-    serverCallbackArgs["product_id"] = "\${shared_product_id}"
+  private fun sendWithTemplate(template: DefaultTemplate, promise: Promise, serverCallbackArgs: Map<String, String>?) {
     if (ShareClient.instance.isKakaoTalkSharingAvailable(this.reactContext)) {
-      ShareClient.instance.shareDefault(reactContext, template, serverCallbackArgs) { sharingResult, error ->
+      ShareClient.instance.shareCustom(reactContext, template, serverCallbackArgs) { sharingResult, error ->
         if (error != null) {
           promise.reject("E_KAKAO_ERROR", error.message, error)
           return@shareDefault
@@ -147,7 +160,9 @@ class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : 
       buttons = if (dict.hasKey("buttons")) createButtons(dict.getArray("buttons")!!) else null,
       buttonTitle = getS(dict, "buttonTitle")
     )
-    sendWithTemplate(commerce, promise)
+    val serverCallbackArgs = getMap(dict, "serverCallbackArgs")
+
+    sendWithTemplate(commerce, promise, serverCallbackArgs)
   }
 
   @ReactMethod
@@ -159,7 +174,10 @@ class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : 
       buttons = if (dict.hasKey("buttons")) createButtons(dict.getArray("buttons")!!) else null,
       buttonTitle = getS(dict, "buttonTitle")
     )
-    sendWithTemplate(list, promise)
+
+    val serverCallbackArgs = getMap(dict, "serverCallbackArgs")
+
+    sendWithTemplate(list, promise, serverCallbackArgs)
   }
 
   @ReactMethod
@@ -170,7 +188,10 @@ class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : 
       buttons = if (dict.hasKey("buttons")) createButtons(dict.getArray("buttons")!!) else null,
       buttonTitle = getS(dict, "buttonTitle")
     )
-    sendWithTemplate(feed, promise)
+
+    val serverCallbackArgs = getMap(dict, "serverCallbackArgs")
+
+    sendWithTemplate(feed, promise, serverCallbackArgs)
   }
 
   @ReactMethod
@@ -183,7 +204,10 @@ class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : 
       buttons = if (dict.hasKey("buttons")) createButtons(dict.getArray("buttons")!!) else null,
       buttonTitle = getS(dict, "buttonTitle")
     )
-    sendWithTemplate(location, promise)
+
+    val serverCallbackArgs = getMap(dict, "serverCallbackArgs")
+
+    sendWithTemplate(location, promise, serverCallbackArgs)
   }
 
   @ReactMethod
@@ -194,16 +218,18 @@ class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : 
       buttons = if (dict.hasKey("buttons")) createButtons(dict.getArray("buttons")!!) else null,
       buttonTitle = getS(dict, "buttonTitle")
     )
-    sendWithTemplate(text, promise)
+
+    val serverCallbackArgs = getMap(dict, "serverCallbackArgs")
+
+    sendWithTemplate(text, promise, serverCallbackArgs)
   }
 
   @ReactMethod
   private fun sendCustom(dict: ReadableMap, promise: Promise) {
     val templateId = if (dict.hasKey("templateId")) dict.getInt("templateId")!! else 0
     val templateArgs = createExecutionParams(dict.getArray("templateArgs"))
-    val serverCallbackArgs = HashMap<String, String>()
-    serverCallbackArgs["user_id"] = "\${current_user_id}"
-    serverCallbackArgs["product_id"] = "\${shared_product_id}"
+
+    val serverCallbackArgs = getMap(dict, "serverCallbackArgs")
 
     if (ShareClient.instance.isKakaoTalkSharingAvailable(reactContext)) {
       ShareClient.instance.shareCustom(reactContext, templateId = templateId.toLong(), templateArgs = templateArgs, serverCallbackArgs = serverCallbackArgs) {

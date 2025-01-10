@@ -127,9 +127,9 @@ class KakaoShareLink: NSObject {
         }
     }
 
-    private func shareDefaultTemplate(templateObject: [String: Any], callback: @escaping (Bool, Error?) -> Void) {
+    private func shareDefaultTemplate(templateObject: [String: Any], callback: @escaping (Bool, Error?) -> Void, serverCallbackArgs: [String: String]?) {
         if ShareApi.isKakaoTalkSharingAvailable() == true {
-            ShareApi.shared.shareDefault(templateObject: templateObject) {(linkResult, error) in
+            ShareApi.shared.shareDefault(templateObject: templateObject, serverCallbackArgs: serverCallbackArgs) {(linkResult, error) in
                 if let error = error {
                     callback(false, error)
                 }
@@ -152,15 +152,17 @@ class KakaoShareLink: NSObject {
         let buttons = createButtons(dict: dict)
         let buttonTitle = (dict["buttonTitle"] as? String)
         let commerceTemplate = CommerceTemplate(content: createContent(dict: (dict["content"] as! NSDictionary)), commerce: createCommerce(dict: (dict["commerce"] as! NSDictionary)), buttonTitle: buttonTitle, buttons: buttons)
+        let serverCallbackArgs = (dict["serverCallbackArgs"] as? [String: String])
+
         if let commerceTemplateJsonData = (try? SdkJSONEncoder.custom.encode(commerceTemplate)) {
             if let templateJsonObject = SdkUtils.toJsonObject(commerceTemplateJsonData) {
-                shareDefaultTemplate(templateObject: templateJsonObject) {(result, error) in
+                shareDefaultTemplate(templateObject: templateJsonObject, callback: {(result, error) in
                     if let error = error {
                         reject("E_Kakao_Link", error.localizedDescription, nil)
                     } else {
                         resolve(["result": result])
                     }
-                }
+                }, serverCallbackArgs: serverCallbackArgs)
             }
         }
     }
@@ -170,15 +172,17 @@ class KakaoShareLink: NSObject {
         let buttonTitle = (dict["buttonTitle"] as? String)
         let headerTitle = (dict["headerTitle"] as! String)
         let listTemplate = ListTemplate(headerTitle: headerTitle, headerLink: createLink(dict: dict, key: "headerLink"), contents: createContents(dictArr: (dict["contents"] as! NSArray)), buttonTitle: buttonTitle, buttons: buttons)
+        let serverCallbackArgs = (dict["serverCallbackArgs"] as? [String: String])
+
         if let listTemplateJsonData = (try? SdkJSONEncoder.custom.encode(listTemplate)) {
             if let templateJsonObject = SdkUtils.toJsonObject(listTemplateJsonData) {
-                shareDefaultTemplate(templateObject: templateJsonObject) {(result, error) in
+                shareDefaultTemplate(templateObject: templateJsonObject, callback: {(result, error) in
                     if let error = error {
                         reject("E_Kakao_Link", error.localizedDescription, nil)
                     } else {
                         resolve(["result": result])
                     }
-                }
+                }, serverCallbackArgs: serverCallbackArgs)
             }
         }
     }
@@ -187,15 +191,17 @@ class KakaoShareLink: NSObject {
         let buttons = createButtons(dict: dict)
         let buttonTitle = (dict["buttonTitle"] as? String)
         let feedTemplate = FeedTemplate(content: createContent(dict: (dict["content"] as! NSDictionary)), social: createSocial(dict: dict), buttonTitle: buttonTitle, buttons: buttons)
+        let serverCallbackArgs = (dict["serverCallbackArgs"] as? [String: String])
+
         if let feedTemplateJsonData = (try? SdkJSONEncoder.custom.encode(feedTemplate)) {
             if let templateJsonObject = SdkUtils.toJsonObject(feedTemplateJsonData) {
-                shareDefaultTemplate(templateObject: templateJsonObject) {(result, error) in
+                shareDefaultTemplate(templateObject: templateJsonObject, callback: {(result, error) in
                     if let error = error {
                         reject("E_Kakao_Link", error.localizedDescription, nil)
                     } else {
                         resolve(["result": result])
                     }
-                }
+                }, serverCallbackArgs: serverCallbackArgs)
             }
         }
     }
@@ -204,32 +210,37 @@ class KakaoShareLink: NSObject {
         let buttons = createButtons(dict: dict)
         let buttonTitle = (dict["buttonTitle"] as? String)
         let locationTemplate = LocationTemplate(address: (dict["address"] as! String), addressTitle: (dict["addressTitle"] as? String), content: createContent(dict: (dict["content"] as! NSDictionary)), social: createSocial(dict: dict), buttonTitle: buttonTitle, buttons: buttons)
+        let serverCallbackArgs = (dict["serverCallbackArgs"] as? [String: String])
+
         if let locationTemplateJsonData = (try? SdkJSONEncoder.custom.encode(locationTemplate)) {
             if let templateJsonObject = SdkUtils.toJsonObject(locationTemplateJsonData) {
-                shareDefaultTemplate(templateObject: templateJsonObject) {(result, error) in
+                shareDefaultTemplate(templateObject: templateJsonObject, callback: {(result, error) in
                     if let error = error {
                         reject("E_Kakao_Link", error.localizedDescription, nil)
                     } else {
                         resolve(["result": result])
                     }
-                }
+                }, serverCallbackArgs: serverCallbackArgs)
             }
         }
     }
+
     @objc(sendText:withResolver:withRejecter:)
     func sendText(dict:NSDictionary,resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void {
         let buttons = createButtons(dict: dict)
         let buttonTitle = (dict["buttonTitle"] as? String)
         let textTemplate = TextTemplate(text: (dict["text"] as! String), link: createLink(dict: dict, key: "link"), buttonTitle: buttonTitle, buttons: buttons)
+        let serverCallbackArgs = (dict["serverCallbackArgs"] as? [String: String])
+
         if let textTemplateJsonData = (try? SdkJSONEncoder.custom.encode(textTemplate)) {
             if let templateJsonObject = SdkUtils.toJsonObject(textTemplateJsonData) {
-                shareDefaultTemplate(templateObject: templateJsonObject) {(result, error) in
+                shareDefaultTemplate(templateObject: templateJsonObject, callback: {(result, error) in
                     if let error = error {
                         reject("E_Kakao_Link", error.localizedDescription, nil)
                     } else {
                         resolve(["result": result])
                     }
-                }
+                }, serverCallbackArgs: serverCallbackArgs)
             }
         }
     }
