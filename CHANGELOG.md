@@ -1,3 +1,7 @@
+[1.0.12]
+
+    - android sendDefault 이슈 해결
+
 [1.0.11]
 
     - ios, android serverCallbackArgs 추가

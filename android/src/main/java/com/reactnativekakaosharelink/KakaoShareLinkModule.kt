@@ -116,7 +116,7 @@ class KakaoShareLinkModule(private val reactContext: ReactApplicationContext) : 
 
   private fun sendWithTemplate(template: DefaultTemplate, promise: Promise, serverCallbackArgs: Map<String, String>?) {
     if (ShareClient.instance.isKakaoTalkSharingAvailable(this.reactContext)) {
-      ShareClient.instance.shareCustom(reactContext, template, serverCallbackArgs) { sharingResult, error ->
+      ShareClient.instance.shareDefault(reactContext, template, serverCallbackArgs) { sharingResult, error ->
         if (error != null) {
           promise.reject("E_KAKAO_ERROR", error.message, error)
           return@shareDefault
